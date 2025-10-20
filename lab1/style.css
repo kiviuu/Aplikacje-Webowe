@@ -12,3 +12,78 @@ body {
     align-items: center;
     justify-content: center;
 }
+#autor{
+    font-style: italic;
+    color: orange;
+}
+article{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5%;
+    text-align: center;
+}
+td{
+    padding: 10px;
+}
+thead td{
+    font-weight: bold;
+}
+table{
+    border-collapse: collapse;
+}
+tr{
+    border: 1px solid black;
+}
+
+#cw3{
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-auto-rows: 100px 100px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}
+
+article div{
+    width: 100px;
+    height: 100px;
+}
+
+#d1{
+    background-color: red;
+    grid-column: 1;
+    grid-row: 1;
+}
+#d2{
+    background-color: blue;
+    grid-column: 2;
+    grid-row: 1;
+}
+#d3{
+    background-color: green;
+    grid-column: 1;
+    grid-row: 2;
+}
+#d4{
+    background-color: purple;
+    grid-column: 2;
+    grid-row: 2;
+}
+#d5{
+    background-color: white;
+    grid-column: 3;
+    grid-row: 2;
+    width: 100px;
+    height: 100px;
+}
+
+a[href="cw1.html"]{
+    color: red;
+}
+a[href="cw2.html"]{
+    color: blue;
+}
+a[href="cw3.html"]{
+    color: white;
+}
