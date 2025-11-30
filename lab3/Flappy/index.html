@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not a Flappy Bird </title>
+    <meta name="author" content="Bartosz Z i wszelkie dostępne LLM-y">
+    <link rel="stylesheet" href="style.css">
+</head>
+    <body>
+        <div class="game-container">
+            <canvas id="bird-game" width="320" height="510"></canvas>
+            
+            <div id="start-screen" class="overlay">
+                <div class="message">
+                    <img src="message.png" alt="Get Ready">
+                </div>
+            </div>
+
+            <div id="game-over-screen" class="overlay hidden">
+                <div class="panel">
+                    <img src="gameover.png" alt="Game Over" class="gameover-title">
+                    <div class="score-board">
+                        <p>WYNIK: <span id="current-score">0</span></p>
+                        <p>NAJLEPSZY: <span id="best-score">0</span></p>
+                    </div>
+                    <div class="top-scores">
+                        <h3>TOP 5</h3>
+                        <ul id="high-score-list"></ul>
+                    </div>
+
+                    <button id="restart-btn">Zagraj ponownie</button>
+                </div>
+            </div>
+
+            <div id="congrats-screen" class="overlay hidden">
+                <h1 class="glow">NOWY REKORD!</h1>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

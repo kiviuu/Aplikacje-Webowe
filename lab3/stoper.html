@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stoper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stoper">
+    <meta name="keywords" content="stoper js">
+    <meta name="author" content="Bartosz Z">
+</head>
+<body>
+<header>
+    <h1>Stoper</h1>
+</header>
+    <main>
+        <article>
+            <span id="result">00min 00s</span>
+            <button id="start-stop">START</button>
+            <button id="reset">RESET</button>
+        </article>
+    </main>
+<script>
+    const start = document.getElementById('start-stop');
+    const reset = document.getElementById('reset');
+    const result = document.getElementById('result');
+
+    let time = 0;
+    let intId = 0;
+
+    start.addEventListener('click', (e) => {
+        console.log('clicked');
+        let curOpt = start.innerText;
+        let isNotPaused = false;
+        switch(curOpt) {
+            case 'START':
+                isNotPaused = true;
+                intId = setInterval(() => {
+                    if (isNotPaused) {
+                        time += 1;
+                    }
+                    let min = Math.floor(time / 60);
+
+                    let sec = time % 60;
+                    let spn = "";
+                    console.log(min);
+                    console.log(sec);
+
+                    if (min !== 0){
+                        if (min < 10){
+                            spn += "0";
+                        }
+                        spn += min.toString();
+                    }
+                    else{
+                        spn += "00";
+                    }
+                    spn += "min ";
+
+                    if (sec < 10){
+                        spn += "0";
+                    }
+                    spn += sec.toString();
+                    spn += "s";
+                    console.log(spn);
+                    result.innerHTML = spn;
+                }, 1000);
+                start.innerText = "STOP";
+                break;
+            case 'STOP':
+                isNotPaused = false;
+                clearInterval(intId)
+                curOpt = "STOP";
+                start.innerText = "START";
+                break;
+        }
+    })
+    reset.addEventListener('click', (e) => {
+        clearInterval(intId);
+        time = 0;
+        result.innerText = "00min 00s";
+        start.innerText = "START";
+    })
+</script>
+</body>
+</html>

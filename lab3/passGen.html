@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Bartosz Z">
+</head>
+<body>
+    <header>
+        <h1>Password Generator</h1>
+    </header>
+<main>
+    <article>
+        <section>
+            <label for="minLen">Min length:</label>
+            <input type="number" step="1" min="8" id="minLen" name="minLen"><br>
+
+            <label for="maxLen">Max length:</label>
+            <input type="number" step="0" min="8" id="maxLen" name="maxLen"><br>
+
+            <label for="special">Use special characters:</label>
+            <input type="checkbox" id="special" name="special" checked><br>
+
+            <label for="upper">Use special characters:</label>
+            <input type="checkbox" id="upper" name="upper" checked><br>
+
+            <button id="generate">Generate Password</button>
+        </section>
+    </article>
+    <script>
+        document.getElementById('generate').addEventListener('click', (e) => {
+            let minLen = document.getElementById('minLen').value;
+            let maxLen = document.getElementById('maxLen').value;
+            document.getElementById('maxLen').min = minLen;
+            document.getElementById('minLen').max = maxLen;
+            const special = document.getElementById('special').checked;
+            const upper = document.getElementById('upper').checked;
+
+            if (minLen > maxLen){
+                let temp = minLen;
+                minLen = maxLen;
+                maxLen = temp;
+            }
+
+            let characters = "qwertyuiopasdfghjklzxcvbnm0123456789";
+            let specials = ",<.>/?;:'\"[{]}\\|}]!@#$%^&*()_-+=`~";
+            characters = characters.split("");
+            specials = specials.split("");
+            let uppers = characters.map(el => el.toUpperCase())
+
+            let specialUsed = 0;
+            let upperUsed = 0;
+            let result = "";
+
+            let randomLen = Math.floor(Math.random() * (maxLen - minLen + 1)) + parseInt(minLen);
+            let inUse = characters.concat();
+
+            if (special){
+                inUse = inUse.concat(specials);
+            }
+            if (upper){
+                inUse = inUse.concat(uppers);
+            }
+            let inUseLen = inUse.length;
+
+            for (let i=0; i<randomLen; i++) {
+                let randomChar = Math.floor(Math.random()*inUseLen);
+                if ( specials.includes(inUse[randomChar]) ){
+                    specialUsed += 1;
+                }
+                if ( uppers.includes(inUse[randomChar]) ){
+                    upperUsed += 1;
+                }
+                result = result.concat(inUse[randomChar]);
+            }
+            if (specialUsed === 0){
+                let randomSpecial = Math.floor( Math.random()*(specials.length) );
+                while (true){
+                    let randomChar = Math.floor(Math.random()*randomLen);
+                    if ( uppers.includes(inUse[randomChar]) && upperUsed > 1 ){
+                        continue;
+                    }
+                    result = result.substring(0, randomChar)
+                        + specials[randomSpecial]
+                        + result.substring(randomChar + 1);
+
+                    break
+                }
+            }
+
+            if (upperUsed === 0){
+                let randomUpper = Math.floor( Math.random()*(uppers.length) );
+                while (true){
+                    let randomChar = Math.floor(Math.random()*randomLen);
+                    if ( specials.includes(inUse[randomChar]) && specialUsed <= 1 ){
+                        continue;
+                    }
+                    result = result.substring(0, randomChar)
+                        + specials[randomUpper]
+                        + result.substring(randomChar + 1);
+
+                    break;
+                }
+            }
+            // generate
+            window.alert(result);
+        });
+
+
+    </script>
+</main>
+</body>
+</html>

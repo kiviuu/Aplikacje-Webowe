@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy Api Fetch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Bartosz Z">
+    <style>
+        #container *{
+            display: flex;
+            background-color: antiquewhite;
+            margin: 15px;
+            border-radius: 10px;
+        }
+        img{
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <input type="text" placeholder="search" id="search-box">
+        <label for="sortBy">Sort: </label>
+        <select id="sortBy" name="sortBy">
+            <option value="none">none</option>
+            <option value="asc">ascending</option>
+            <option value="desc">descending</option>
+        </select>
+    </header>
+    <main>
+        <article id="container">
+
+        </article>
+    </main>
+    <script>
+
+        let productList = [];
+        async function fetchData(){
+            const link = "https://dummyjson.com/products/?limit=30";
+            try{
+                const response = await fetch(link);
+                if (!response.ok){
+                    console.log("sth went wrong");
+                }
+                const json = await response.json();
+                return json;
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', async ()=>{
+            let json = await fetchData();
+            productList = json.products;
+            console.log(productList);
+            printData(productList,null,null);
+        });
+
+        function printData(procList, phrase, asc){
+            let tempList = procList.map(item => {
+               return {
+                   title: item.title,
+                   description: item.description,
+                   image: item.images[0],
+               }
+            });
+            if(phrase != null){
+                tempList = tempList.filter(item => item.title.toLowerCase().includes(phrase.toLowerCase()));
+            }
+            if (asc != null){
+                tempList.sort((a,b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
+                if(!asc){
+                    tempList = tempList.reverse();
+                }
+            }
+
+
+            const container = document.getElementById('container');
+            container.innerHTML = "";
+            tempList = tempList.map(item => {
+               let temp = document.createElement('div');
+               temp.className = "element";
+
+               let tempH3 = document.createElement('h3');
+               tempH3.innerText = item.title;
+               temp.appendChild(tempH3);
+
+               let tempP = document.createElement('p');
+               tempP.innerText = item.description;
+               temp.appendChild(tempP);
+
+               let tempImg = document.createElement('img');
+               tempImg.src = item.image;
+               tempImg.alt = item.title;
+               temp.appendChild(tempImg);
+               return temp;
+            });
+
+            tempList.forEach(item => {
+               container.appendChild(item);
+            });
+        }
+
+        document.getElementById('search-box').addEventListener('input', () =>{
+            console.log("search");
+            const sortBy = document.getElementById('sortBy').value;
+            const search = document.getElementById('search-box').value;
+            let tempSortBy = null;
+            if (sortBy !== 'none'){
+                switch(sortBy){
+                    case 'asc':
+                        tempSortBy = true;
+                        break;
+                    case 'desc':
+                        tempSortBy = false;
+                        break;
+                }
+            }
+            printData(productList, search, tempSortBy);
+        });
+        document.getElementById('sortBy').addEventListener('change', () =>{
+            const sortBy = document.getElementById('sortBy').value;
+            const search = document.getElementById('search-box').value;
+            let tempSortBy = null;
+            if (sortBy !== 'none'){
+                switch(sortBy){
+                    case 'asc':
+                        tempSortBy = true;
+                        break;
+                    case 'desc':
+                        tempSortBy = false;
+                        break;
+                }
+            }
+            printData(productList, search, tempSortBy);
+        })
+    </script>
+</body>
+</html>
